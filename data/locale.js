@@ -39,25 +39,16 @@ $.extend(wot, { locale: {
 
 	loadlocale: function(ondone)
 	{
-		var xhr = new XMLHttpRequest();
 
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4) {
-				wot.alllocales[wot.language] =
-					JSON.parse(this.responseText) || {};
-				(ondone || function() {})();
-			}
-		};
-
-		xhr.open("GET", "_locales/" + wot.language + "/messages.json");
-		xhr.send();
+        wot.browser.load_sync("_locales/" + wot.language + "/messages.json", null, function(xhr) {
+            wot.alllocales[wot.language] = JSON.parse(xhr.responseText) || {};
+            (ondone || function() {})();
+        });
 	},
 
 	setlocale: function()
 	{
 		var lang = (window.navigator.language || "en").replace(/-/g, "_");
-
-        wot.log("lang detect: " + lang );
 
 		if (!this.languages[lang]) {
 			lang = lang.replace(/_.*$/, "");
@@ -68,7 +59,6 @@ $.extend(wot, { locale: {
 
 		this.loadlocale(function() {
 			wot.locale.ready(true);
-            wot.log("Locale loaded");
 		});
 	},
 
@@ -78,7 +68,6 @@ $.extend(wot, { locale: {
 
 		wot.bind("message:locale:get", function(port, data) {
 			wot.bind("locale:ready", function() {
-                wot.log('send locale:ready:put signal');
 				port.post("put", {
 					language: wot.language,
 					locale: wot.alllocales[wot.language] || {}

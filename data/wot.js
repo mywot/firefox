@@ -257,8 +257,6 @@ var wot = {
 
         var result = (locale[msg] || {}).message;
 
-        this.log("i18n: msg = " + msg + " / result = " + result);
-
         if (result != null) {
             return result;
         }

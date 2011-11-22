@@ -21,9 +21,11 @@
 body {
 	overflow: hidden;
 }
+
 #wot-ratingwindow {
 	display: block;
 }
+
 #wot-elements {
 	background: #ffffff;
 	display: block;
@@ -43,6 +45,7 @@ body {
 	margin-top: 2px;
 	width: 312px;
 }
+
 #wot-header-logo {
 	background: url("fusion/logo.png") top left no-repeat;
 	cursor: pointer;
@@ -54,9 +57,11 @@ body {
 	margin-top: 2px;
 	width: 42px;
 }
+
 #wot-header-logo.accessible {
 	background: url("fusion/accessible/logo.png") top left no-repeat;
 }
+
 #wot-header-links {
 	display: block;
 	float: left;
@@ -65,6 +70,7 @@ body {
 	text-align: bottom;
 	width: 242px;
 }
+
 .wot-header-link,
 #wot-header-link-separator {
 	color: #8f8f8f;
@@ -74,10 +80,12 @@ body {
 	height: 16px;
 	line-height: 16px;
 }
+
 .wot-header-link {
 	margin-left: 0px;
 	margin-right: 0px;
 }
+
 #wot-header-link-separator {
 	border-right: 1px solid #8f8f8f;
 	height: 11px;
@@ -94,6 +102,7 @@ body {
 	color: #333;
 	text-decoration: underline;
 }
+
 #wot-header-button {
 	background: url("fusion/close.png") top left no-repeat;
 	display: block;
@@ -102,20 +111,25 @@ body {
 	margin-top: 2px;
 	width: 16px;
 }
+
 #wot-header-button:hover {
 	background: url("fusion/close-hover.png") top left no-repeat;
 	cursor: pointer;
 }
+
 #wot-header-button:active {
 	background: url("fusion/close-active.png") top left no-repeat;
 }
+
 #wot-header-button.accessible {
 	background: url("fusion/accessible/close.png") top left no-repeat;
 }
+
 #wot-header-button.accessible:hover {
 	background: url("fusion/accessible/close-hover.png") top left no-repeat;
 	cursor: pointer;
 }
+
 #wot-header-button.accessible:active {
 	background: url("fusion/accessible/close-active.png") top left no-repeat;
 }
@@ -130,6 +144,7 @@ body {
 	padding-top: 4px;
 	width: 312px;
 }
+
 #wot-title-text {
 	color: #777676;
 	display: table-cell;
@@ -143,14 +158,17 @@ body {
 	vertical-align: middle;
 	width: 312px;
 }
+
 #wot-ratingwindow[status="disabled"] #wot-title-text:hover {
 	color: #3073c5;
 	cursor: pointer;
 }
+
 #wot-ratingwindow[status="disabled"] #wot-title-text.accessible:hover {
 	color: #333;
 	text-decoration: underline;
 }
+
 #wot-title-text[status="information"] {
 	color: #4e4e4e;
 }
@@ -167,6 +185,7 @@ body {
 	padding-top: 2px;
 	width: 312px;
 }
+
 #wot-rating-header-wot {
 	display: block;
 	float: left;
@@ -174,6 +193,7 @@ body {
 	margin-right: 0px;
 	width: 112px;
 }
+
 #wot-rating-header-my {
 	display: block;
 	float: left;
@@ -191,6 +211,7 @@ body {
 	margin-right: 2px;
 	width: 312px;
 }
+
 .wot-rating {
 	display: block;
 	height: 51px;
@@ -198,6 +219,7 @@ body {
 	margin-right: 0px;
 	width: 318px;
 }
+
 .wot-rating-header {
 	color: #878787;
 	display: block;
@@ -211,9 +233,11 @@ body {
 	padding-right: 0px;
 	width: 312px;
 }
+
 .wot-rating-data {
 	display: block;
 }
+
 .wot-rating-reputation {
 	background: url("fusion/28_28/default.png") top left no-repeat;
 	display: block;
@@ -223,51 +247,67 @@ body {
 	margin-top: 2px;
 	width: 28px;
 }
+
 .wot-rating-reputation[reputation="rx"] {
 	background: url("fusion/28_28/rx.png") top left no-repeat;
 }
+
 .wot-rating-reputation[reputation="r0"] {
 	background: url("fusion/28_28/r0.png") top left no-repeat;
 }
+
 .wot-rating-reputation[reputation="r1"] {
 	background: url("fusion/28_28/r1.png") top left no-repeat;
 }
+
 .wot-rating-reputation[reputation="r2"] {
 	background: url("fusion/28_28/r2.png") top left no-repeat;
 }
+
 .wot-rating-reputation[reputation="r3"] {
 	background: url("fusion/28_28/r3.png") top left no-repeat;
 }
+
 .wot-rating-reputation[reputation="r4"] {
 	background: url("fusion/28_28/r4.png") top left no-repeat;
 }
+
 .wot-rating-reputation[reputation="r5"] {
 	background: url("fusion/28_28/r5.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible {
 	background: url("fusion/accessible/28_28/default.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible[reputation="r0"] {
 	background: url("fusion/accessible/28_28/r0.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible[reputation="rx"] {
 	background: url("fusion/28_28/rx.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible[reputation="r1"] {
 	background: url("fusion/accessible/28_28/r1.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible[reputation="r2"] {
 	background: url("fusion/accessible/28_28/r2.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible[reputation="r3"] {
 	background: url("fusion/accessible/28_28/r3.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible[reputation="r4"] {
 	background: url("fusion/accessible/28_28/r4.png") top left no-repeat;
 }
+
 .wot-rating-reputation.accessible[reputation="r5"] {
 	background: url("fusion/accessible/28_28/r5.png") top left no-repeat;
 }
+
 .wot-rating-confidence {
 	background: url("fusion/confidence-0.png") top left no-repeat;
 	display: block;
@@ -277,21 +317,27 @@ body {
 	margin-top: 6px;
 	width: 51px;
 }
+
 .wot-rating-confidence[confidence="c1"] {
 	background: url("fusion/confidence-1.png") top left no-repeat;
 }
+
 .wot-rating-confidence[confidence="c2"] {
 	background: url("fusion/confidence-2.png") top left no-repeat;
 }
+
 .wot-rating-confidence[confidence="c3"] {
 	background: url("fusion/confidence-3.png") top left no-repeat;
 }
+
 .wot-rating-confidence[confidence="c4"] {
 	background: url("fusion/confidence-4.png") top left no-repeat;
 }
+
 .wot-rating-confidence[confidence="c5"] {
 	background: url("fusion/confidence-5.png") top left no-repeat;
 }
+
 .wot-rating-testimony {
 	display: block;
 	float: left;
@@ -299,12 +345,14 @@ body {
 	margin-left: 0px;
 	margin-top: 5px;
 }
+
 .wot-rating-stack {
 	display: block;
 	height: 17px;
 	padding-left: 22px;
 	width: 201px;
 }
+
 .wot-rating-slider {
 	background: url("fusion/slider.png") top left no-repeat;
 	display: block;
@@ -312,10 +360,12 @@ body {
 	margin-top: 3px;
 	width: 194px;
 }
+
 .wot-rating-stack.testimony .wot-rating-slider {
 	background: url("fusion/slider-active.png") top left no-repeat;
 	cursor: pointer;
 }
+
 .wot-rating-stack:hover .wot-rating-slider
 .wot-rating-stack .wot-rating-slider:hover,
 .wot-rating-stack.hover:hover .wot-rating-slider,
@@ -323,19 +373,23 @@ body {
 	background: url("fusion/slider-hover.png") top left no-repeat;
 	cursor: pointer;
 }
+
 .wot-rating-slider.accessible {
 	background: url("fusion/accessible/slider.png") top left no-repeat;
 }
+
 .wot-rating-stack.testimony .wot-rating-slider.accessible {
 	background: url("fusion/accessible/slider-active.png") top left no-repeat;
 	cursor: pointer;
 }
+
 .wot-rating-stack:hover .wot-rating-slider.accessible
 .wot-rating-stack .wot-rating-slider.accessible:hover,
 .wot-rating-stack.hover:hover .wot-rating-slider.accessible,
 .wot-rating-stack.hover .wot-rating-slider.accessible:hover {
 	background: url("fusion/accessible/slider-hover.png") top left no-repeat;
 }
+
 .wot-rating-indicator {
 	display: block;
 	height: 16px;
@@ -345,9 +399,11 @@ body {
 	float: left;
 	position: relative;
 }
+
 .wot-rating-stack.testimony .wot-rating-indicator {
 	background: url("fusion/indicator.png") top left no-repeat;
 }
+
 .wot-rating-stack.testimony:hover .wot-rating-indicator,
 .wot-rating-stack.testimony .wot-rating-slider:hover + .wot-rating-indicator,
 .wot-rating-stack.testimony .wot-rating-indicator:hover,
@@ -357,6 +413,7 @@ body {
 	background: url("fusion/indicator-hover.png") top left no-repeat;
 	cursor: pointer;
 }
+
 .wot-rating-help {
 	display: block;
 	margin-bottom: 0px;
@@ -365,6 +422,7 @@ body {
 	margin-top: 0px;
 	width: 175px;
 }
+
 .wot-rating-helptext,
 .wot-rating-helplink {
 	color: #878787;
@@ -377,14 +435,17 @@ body {
 	margin-right: 0.3em;
 	margin-top: 1px;
 }
+
 .wot-rating-helplink {
 	display: none;
 }
+
 .wot-rating-helplink.comment {
 	color: #3073c5;
 	cursor: pointer;
 	display: block;
 }
+
 .wot-rating-helplink.comment.accessible {
 	color: #333;
 	text-decoration: underline;
@@ -399,6 +460,7 @@ body {
 	margin-top: 10px;
 	width: 310px;
 }
+
 #wot-scorecard-content {
 	background: url("fusion/scorecard.png") top left no-repeat;
 	display: block;
@@ -406,23 +468,29 @@ body {
 	padding-top: 1px;
 	width: 310px;
 }
+
 #wot-scorecard-content:hover {
 	background: url("fusion/scorecard-hover.png") top left no-repeat;
 	cursor: pointer;
 }
+
 #wot-scorecard-content:active {
 	background: url("fusion/scorecard-active.png") top left no-repeat;
 	cursor: pointer;
 }
+
 #wot-scorecard-content.accessible {
 	background: url("fusion/accessible/scorecard.png") top left no-repeat;
 }
+
 #wot-scorecard-content.accessible:hover {
 	background: url("fusion/accessible/scorecard-hover.png") top left no-repeat;
 }
+
 #wot-scorecard-content.accessible:active {
 	background: url("fusion/accessible/scorecard-active.png") top left no-repeat;
 }
+
 .wot-scorecard-text,
 #wot-scorecard-content:hover #wot-scorecard-visit.inactive {
 	color: #3073c5;
@@ -433,32 +501,38 @@ body {
 	margin-left: 42px;
 	margin-right: 0px;
 }
+
 .wot-scorecard-text:hover,
 #wot-scorecard-content:hover #wot-scorecard-visit {
 	color: #4e4e4e;
 	cursor: pointer;
 }
+
 .wot-scorecard-text.accessible,
 #wot-scorecard-content:hover #wot-scorecard-visit.accessible.inactive {
 	color: #333;
 	text-decoration: underline;
 }
+
 .wot-scorecard-text.accessible:hover,
 #wot-scorecard-content:hover #wot-scorecard-visit.accessible {
 	color: #4e4e4e;
 	text-decoration: none;
 }
+
 #wot-scorecard-visit {
 	display: block;
 	font-weight: bold;
 	margin-bottom: 0px;
 	margin-top: 9px;
 }
+
 #wot-scorecard-comment-container {
 	display: block;
 	margin: 0;
 	width: 310px;
 }
+
 #wot-scorecard-comment {
 	display: block;
 	margin-bottom: 0px;
@@ -471,6 +545,7 @@ body {
 	display: none;
 	width: 316px;
 }
+
 .wot-user-content {
 	display: block;
 	height: 30px;
@@ -478,6 +553,7 @@ body {
 	margin-top: 0px;
 	width: 316px;
 }
+
 .wot-user-stack {
 	display: block;
 	float: left;
@@ -486,6 +562,7 @@ body {
 	margin-top: 0px;
 	width: 145px;
 }
+
 .wot-user-header {
 	color: #8f8f8f;
 	display: block;
@@ -498,11 +575,13 @@ body {
 	overflow: hidden;
 	width: 144px;
 }
+
 .wot-user-bar {
 	display: block;
 	float: left;
 	margin-top: 1px;
 }
+
 .wot-user-bar-image {
 	display: block;
 	float: left;
@@ -510,39 +589,51 @@ body {
 	margin-top: 1px;
 	width: 62px;
 }
+
 .wot-user-bar-image[length="0"] {
 	background: url("fusion/user-bar-0.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="1"] {
 	background: url("fusion/user-bar-1.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="2"] {
 	background: url("fusion/user-bar-2.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="3"] {
 	background: url("fusion/user-bar-3.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="4"] {
 	background: url("fusion/user-bar-4.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="5"] {
 	background: url("fusion/user-bar-5.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="6"] {
 	background: url("fusion/user-bar-6.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="7"] {
 	background: url("fusion/user-bar-7.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="8"] {
 	background: url("fusion/user-bar-8.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="9"] {
 	background: url("fusion/user-bar-9.png") top left no-repeat;
 }
+
 .wot-user-bar-image[length="10"] {
 	background: url("fusion/user-bar-10.png") top left no-repeat;
 }
+
 .wot-user-bar-text {
 	color: #8f8f8f;
 	display: block;
@@ -555,6 +646,7 @@ body {
 	overflow: hidden;
 	width: 76px;
 }
+
 .wot-user-text-container {
 	display: block;
 	float: left;
@@ -563,6 +655,7 @@ body {
 	text-align: right;
 	width: 159px;
 }
+
 .wot-user-text {
 	color: #8f8f8f;
 	display: block;
@@ -573,14 +666,17 @@ body {
 	margin-right: 0px;
 	margin-top: 7px;
 }
+
 .wot-user-text[url^="http"]:hover {
 	color: #3073c5;
 	cursor: pointer;
 }
+
 .wot-user-text.accessible[url^="http"]:hover {
 	color: #333;
 	text-decoration: underline;
 }
+
 .wot-user-notice {
 	color: #333333;
 	display: block;
@@ -595,6 +691,7 @@ body {
 	padding-left: 6px;
 	width: 316px;
 }
+
 /* message */
 #wot-message {
 	background: url("fusion/message-background.png") top left no-repeat;
@@ -606,6 +703,7 @@ body {
 	margin-top: 5px;
 	width: 312px;
 }
+
 #wot-message-text {
 	color: #707070;
 	display: block;
@@ -620,29 +718,36 @@ body {
 	white-space: normal;
 	width: 298px;
 }
+
 #wot-message-text[url^="http"]:hover,
 #wot-message[status="important"] #wot-message-text[url^="http"]:hover,
 #wot-message[status="critical"] #wot-message-text[url^="http"]:hover {
 	color: #3073c5;
 	cursor: pointer;
 }
+
 #wot-message-text.accessible[url^="http"]:hover,
 #wot-message[status="important"] #wot-message-text.accessible[url^="http"]:hover,
 #wot-message[status="critical"] #wot-message-text.accessible[url^="http"]:hover {
 	color: #333;
 }
+
 #wot-message[status="important"] {
 	background: url("fusion/message-important.png") top left no-repeat;
 }
+
 #wot-message[status="critical"] {
 	background: url("fusion/message-critical.png") top left no-repeat;
 }
+
 #wot-message[status="important"] #wot-message-text {
 	color: #ea8b2b;
 }
+
 #wot-message[status="critical"] #wot-message-text {
 	color: #d81f27;
 }
+
 /* partner */
 #wot-partner {
 	display: none;
@@ -655,6 +760,7 @@ body {
 	text-align: left;
 	width: 298px;
 }
+
 /*#wot-partner[partner="name"] {
 	display: block;
 	background: url("partner/name.png") center right no-repeat;

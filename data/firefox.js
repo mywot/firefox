@@ -56,6 +56,29 @@ $.extend(wot, { browser: {
         });
     },
 
+    load_async: function(url, data, callback, asyncronous)
+    {
+        asyncronous = asyncronous == undefined ? true : asyncronous;
+        var xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                callback(this);
+            }
+        };
+
+        xhr.open("GET", url, asyncronous);
+        xhr.send(data);
+
+    },
+
+
+    load_sync: function(url, data, callback)
+    {
+        wot.log("browser/load_sync");
+        wot.browser.load_async(url, data, callback, false);
+    }
+
 }
 
 });

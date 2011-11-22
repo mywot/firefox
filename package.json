@@ -1,0 +1,11 @@
+{
+    "name": "wot",
+    "license": "GPL 3.0", 
+    "author": "Web of Trust Services",
+    "version": "0.1", 
+    "fullName": "Web of Trust", 
+    "id": "jid1-RQgodFYTcbN1uQ", 
+    "description": "Web of Trust shows you which websites people trust for safe surfing, shopping and searching on the web.",
+    "homepage": "http://mywot.com",
+    "icon": ""
+}

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# make a copy of common things for content scripts and js-modules
+cp -f lib/constants.js data/

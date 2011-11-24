@@ -1,22 +1,22 @@
 /*
-	ratingwindow.js
-	Copyright © 2009, 2010  WOT Services Oy <info@mywot.com>
+ ratingwindow.js
+ Copyright © 2009, 2010  WOT Services Oy <info@mywot.com>
 
-	This file is part of WOT.
+ This file is part of WOT.
 
-	WOT is free software: you can redistribute it and/or modify it
-	under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+ WOT is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-	WOT is distributed in the hope that it will be useful, but WITHOUT
-	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-	or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
-	License for more details.
+ WOT is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+ License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with WOT. If not, see <http://www.gnu.org/licenses/>.
-*/
+ You should have received a copy of the GNU General Public License
+ along with WOT. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 $.extend(wot, { ratingwindow: {
 	sliderwidth: 194,
@@ -25,8 +25,7 @@ $.extend(wot, { ratingwindow: {
 
 	state: {},
 
-	updatestate: function(target, data)
-	{
+	updatestate: function (target, data) {
 		/* initialize on target change */
 		if (this.state.target != target) {
 			this.finishstate();
@@ -37,7 +36,7 @@ $.extend(wot, { ratingwindow: {
 
 		/* add existing ratings to state */
 		if (data && data.status == wot.cachestatus.ok) {
-			wot.components.forEach(function(item) {
+			wot.components.forEach(function (item) {
 				if (data.value[item.name] && data.value[item.name].t >= 0) {
 					state[item.name] = { t: data.value[item.name].t };
 				}
@@ -48,8 +47,7 @@ $.extend(wot, { ratingwindow: {
 		this.state = $.extend(state, this.state);
 	},
 
-	setstate: function(component, t)
-	{
+	setstate: function (component, t) {
 		if (t >= 0) {
 			this.state[component] = { t: t };
 		} else {
@@ -57,8 +55,7 @@ $.extend(wot, { ratingwindow: {
 		}
 	},
 
-	finishstate: function()
-	{
+	finishstate: function () {
 		try {
 			var bg = window; // sorgoz: changed from chrome background
 
@@ -69,11 +66,11 @@ $.extend(wot, { ratingwindow: {
 
 			/* check for rating changes */
 			if (bg.wot.cache.cacheratingstate(this.state.target,
-							this.state)) {
+				this.state)) {
 				/* submit new ratings */
 				var params = {};
 
-				wot.components.forEach(function(item) {
+				wot.components.forEach(function (item) {
 					if (wot.ratingwindow.state[item.name]) {
 						params["testimony_" + item.name] =
 							wot.ratingwindow.state[item.name].t;
@@ -92,8 +89,7 @@ $.extend(wot, { ratingwindow: {
 
 	/* helpers */
 
-	navigate: function(url)
-	{
+	navigate: function (url) {
 		try {
 			chrome.tabs.create({ url: url });
 			this.hide();
@@ -102,25 +98,23 @@ $.extend(wot, { ratingwindow: {
 		}
 	},
 
-	getcached: function()
-	{
+	getcached: function () {
 		if (this.current.target && this.current.cached &&
-				this.current.cached.status == wot.cachestatus.ok) {
+			this.current.cached.status == wot.cachestatus.ok) {
 			return this.current.cached;
 		}
 
 		return { value: {} };
 	},
 
-	getrating: function(e, stack)
-	{
+	getrating: function (e, stack) {
 		try {
 			if (this.getcached().status == wot.cachestatus.ok) {
 				var slider = $(".wot-rating-slider", stack);
 
 				/* rating from slider position */
 				var position = 100 * (e.clientX - slider.position().left) /
-									wot.ratingwindow.sliderwidth;
+					wot.ratingwindow.sliderwidth;
 
 				/* sanitize the rating value */
 				if (position < 0) {
@@ -144,34 +138,33 @@ $.extend(wot, { ratingwindow: {
 
 	current: {},
 
-	updateratings: function(state)
-	{
+	updateratings: function (state) {
 		/* indicator state */
 		state = state || {};
 
 		var cached = this.getcached();
 
 		/* update each component */
-		wot.components.forEach(function(item) {
+		wot.components.forEach(function (item) {
 			if (state.name != null && state.name != item.name) {
 				return;
 			}
 
 			var elems = {};
 
-			[	"stack",
+			[    "stack",
 				"slider",
 				"indicator",
 				"helptext",
 				"helplink"
-			].forEach(function(elem) {
+			].forEach(function (elem) {
 				elems[elem] = $("#wot-rating-" + item.name + "-" + elem);
 			});
 
 			var t = -1;
 
 			if (wot.ratingwindow.state[item.name] &&
-					wot.ratingwindow.state[item.name].t != null) {
+				wot.ratingwindow.state[item.name].t != null) {
 				t = wot.ratingwindow.state[item.name].t;
 			}
 
@@ -179,14 +172,14 @@ $.extend(wot, { ratingwindow: {
 				/* rating */
 				elems.indicator.css("left",
 					(t * wot.ratingwindow.sliderwidth /
-					 	100).toFixed() + "px");
+						100).toFixed() + "px");
 
 				elems.stack.addClass("testimony").removeClass("hover");
 			} else if (state.name != null && state.t >= 0) {
 				/* temporary indicator position */
 				elems.indicator.css("left",
 					(state.t * wot.ratingwindow.sliderwidth /
-					 	100).toFixed() + "px");
+						100).toFixed() + "px");
 
 				elems.stack.removeClass("testimony").addClass("hover");
 			} else {
@@ -197,7 +190,7 @@ $.extend(wot, { ratingwindow: {
 
 			if (t >= 0) {
 				var r = cached.value[item.name] ?
-							cached.value[item.name].r : -1;
+					cached.value[item.name].r : -1;
 
 				if (r >= 0 && Math.abs(r - t) > 35) {
 					helptext = wot.i18n("ratingwindow", "helptext");
@@ -220,9 +213,8 @@ $.extend(wot, { ratingwindow: {
 		});
 	},
 
-	updatecontents: function()
-	{
-        var bg = window; // sorgoz: changed from chrome background
+	updatecontents: function () {
+		var bg = window; // sorgoz: changed from chrome background
 		var cached = this.getcached();
 
 		/* update current rating state */
@@ -242,7 +234,7 @@ $.extend(wot, { ratingwindow: {
 		}
 
 		/* reputations */
-		wot.components.forEach(function(item) {
+		wot.components.forEach(function (item) {
 			if (bg.wot.prefs.get("show_application_" + item.name)) {
 				$("#wot-rating-" + item.name + ", #wot-rating-" + item.name +
 					"-border").css("display", "block");
@@ -255,13 +247,13 @@ $.extend(wot, { ratingwindow: {
 				(cached.status == wot.cachestatus.ok) ?
 					wot.getlevel(wot.reputationlevels,
 						cached.value[item.name] ?
-						cached.value[item.name].r : -1).name : "");
+							cached.value[item.name].r : -1).name : "");
 
 			$("#wot-rating-" + item.name + "-confidence").attr("confidence",
 				(cached.status == wot.cachestatus.ok) ?
 					wot.getlevel(wot.confidencelevels,
 						cached.value[item.name] ?
-						cached.value[item.name].c : -1).name : "");
+							cached.value[item.name].c : -1).name : "");
 		});
 
 		/* ratings */
@@ -281,12 +273,12 @@ $.extend(wot, { ratingwindow: {
 		/* user content */
 		$(".wot-user").hide();
 
-		bg.wot.core.usercontent.forEach(function(item, index) {
+		bg.wot.core.usercontent.forEach(function (item, index) {
 			if (item.bar && item.length != null && item.label) {
 				$("#wot-user-" + index + "-header").text(item.bar);
 				$("#wot-user-" + index + "-bar-text").text(item.label);
 				$("#wot-user-" + index + "-bar-image").attr("length",
-						item.length).show();
+					item.length).show();
 			} else {
 				$("#wot-user-" + index + "-header").text("");
 				$("#wot-user-" + index + "-bar-text").text("");
@@ -311,10 +303,9 @@ $.extend(wot, { ratingwindow: {
 		$("#wot-partner").attr("partner", wot.partner || "");
 	},
 
-	update: function(target, data)
-	{
-		chrome.windows.getCurrent(function(obj) {
-			chrome.tabs.getSelected(obj.id, function(tab) {
+	update: function (target, data) {
+		chrome.windows.getCurrent(function (obj) {
+			chrome.tabs.getSelected(obj.id, function (tab) {
 				try {
 					if (tab.id == target.id) {
 						wot.ratingwindow.current = data || {};
@@ -327,61 +318,67 @@ $.extend(wot, { ratingwindow: {
 		});
 	},
 
-	hide: function()
-	{
+	hide: function () {
 		window.close();
 	},
 
-	onload: function()
-	{
-        wot.log("ratingwindow.js: onload");
-        var bg = window; // sorgoz: changed from chrome background
+	onload: function () {
+		wot.log("ratingwindow.js: onload");
+		var bg = window; // sorgoz: changed from chrome background
 
 		/* accessibility */
 		$("#wot-header-logo, " +
-				"#wot-header-button, " +
-				".wot-header-link, " +
-				"#wot-title-text, " +
-				".wot-rating-reputation, " +
-				".wot-rating-slider, " +
-				".wot-rating-helplink, " +
-				"#wot-scorecard-content, " +
-				".wot-scorecard-text, " +
-				".wot-user-text, " +
-				"#wot-message-text")
+			"#wot-header-button, " +
+			".wot-header-link, " +
+			"#wot-title-text, " +
+			".wot-rating-reputation, " +
+			".wot-rating-slider, " +
+			".wot-rating-helplink, " +
+			"#wot-scorecard-content, " +
+			".wot-scorecard-text, " +
+			".wot-user-text, " +
+			"#wot-message-text")
 			.toggleClass("accessible", wot.prefs.get("accessible"));
 
 		/* texts */
-		wot.components.forEach(function(item) {
+		wot.components.forEach(function (item) {
 			$("#wot-rating-" + item.name +
 				"-header").text(wot.i18n("components", item.name) + ":");
 		});
 
-		[	{	selector: "#wot-header-link-guide",
-				text: wot.i18n("ratingwindow", "guide")
-			}, {
+		[
+			{    selector: "#wot-header-link-guide",
+				text:      wot.i18n("ratingwindow", "guide")
+			},
+			{
 				selector: "#wot-header-link-settings",
-				text: wot.i18n("ratingwindow", "settings")
-			}, {
+				text:     wot.i18n("ratingwindow", "settings")
+			},
+			{
 				selector: "#wot-title-text",
-				text: wot.i18n("messages", "initializing")
-			}, {
+				text:     wot.i18n("messages", "initializing")
+			},
+			{
 				selector: "#wot-rating-header-wot",
-				text: wot.i18n("ratingwindow", "wotrating")
-			}, {
+				text:     wot.i18n("ratingwindow", "wotrating")
+			},
+			{
 				selector: "#wot-rating-header-my",
-				text: wot.i18n("ratingwindow", "myrating")
-			}, {
+				text:     wot.i18n("ratingwindow", "myrating")
+			},
+			{
 				selector: "#wot-scorecard-visit",
-				text: wot.i18n("ratingwindow", "viewscorecard")
-			}, {
+				text:     wot.i18n("ratingwindow", "viewscorecard")
+			},
+			{
 				selector: "#wot-scorecard-comment",
-				text: wot.i18n("ratingwindow", "addcomment")
-			}, {
+				text:     wot.i18n("ratingwindow", "addcomment")
+			},
+			{
 				selector: "#wot-partner-text",
-				text: wot.i18n("ratingwindow", "inpartnership")
+				text:     wot.i18n("ratingwindow", "inpartnership")
 			}
-		].forEach(function(item) {
+		].forEach(function (item) {
 			$(item.selector).text(item.text);
 		});
 
@@ -391,27 +388,27 @@ $.extend(wot, { ratingwindow: {
 
 		/* user interface event handlers */
 
-		$("#wot-header-logo").bind("click", function() {
+		$("#wot-header-logo").bind("click", function () {
 			wot.ratingwindow.navigate(wot.urls.base);
 		});
 
-		$("#wot-header-link-settings").bind("click", function() {
+		$("#wot-header-link-settings").bind("click", function () {
 			wot.ratingwindow.navigate(wot.urls.settings);
 		});
-		$("#wot-header-link-guide").bind("click", function() {
+		$("#wot-header-link-guide").bind("click", function () {
 			wot.ratingwindow.navigate(wot.urls.settings + "/guide");
 		});
 
-		$("#wot-header-button").bind("click", function() {
+		$("#wot-header-button").bind("click", function () {
 			wot.ratingwindow.hide();
 		});
 
-		$("#wot-title").bind("click", function() {
+		$("#wot-title").bind("click", function () {
 			/* TODO: enable the add-on if disabled */
 		});
 
 		$(".wot-rating-helplink, #wot-scorecard-comment").bind("click",
-			function(event) {
+			function (event) {
 				if (wot.ratingwindow.current.target) {
 					wot.ratingwindow.navigate(wot.urls.scorecard +
 						encodeURIComponent(wot.ratingwindow.current.target) +
@@ -421,35 +418,35 @@ $.extend(wot, { ratingwindow: {
 			});
 
 		$("#wot-scorecard-comment-container").hover(
-			function() {
+			function () {
 				$("#wot-scorecard-visit").addClass("inactive");
 			},
-			function() {
+			function () {
 				$("#wot-scorecard-visit").removeClass("inactive");
 			});
 
-		$("#wot-scorecard-content").bind("click", function() {
+		$("#wot-scorecard-content").bind("click", function () {
 			if (wot.ratingwindow.current.target) {
 				wot.ratingwindow.navigate(wot.urls.scorecard +
 					encodeURIComponent(wot.ratingwindow.current.target));
 			}
 		});
 
-		$(".wot-user-text").bind("click", function() {
+		$(".wot-user-text").bind("click", function () {
 			var url = $(this).attr("url");
 			if (url) {
 				wot.ratingwindow.navigate(url);
 			}
 		});
 
-		$("#wot-message").bind("click", function() {
+		$("#wot-message").bind("click", function () {
 			var url = $("#wot-message-text").attr("url");
 			if (url) {
 				wot.ratingwindow.navigate(url);
 			}
 		});
 
-		$(".wot-rating-stack").bind("mousedown", function(e) {
+		$(".wot-rating-stack").bind("mousedown", function (e) {
 			var c = $(this).attr("component");
 			var t = wot.ratingwindow.getrating(e, this);
 			wot.ratingwindow.state.down = c;
@@ -457,11 +454,11 @@ $.extend(wot, { ratingwindow: {
 			wot.ratingwindow.updateratings({ name: c, t: t });
 		});
 
-		$(".wot-rating-stack").bind("mouseup", function(e) {
+		$(".wot-rating-stack").bind("mouseup", function (e) {
 			wot.ratingwindow.state.down = -1;
 		});
 
-		$(".wot-rating-stack").bind("mousemove", function(e) {
+		$(".wot-rating-stack").bind("mousemove", function (e) {
 			var c = $(this).attr("component");
 			var t = wot.ratingwindow.getrating(e, this);
 
@@ -474,16 +471,16 @@ $.extend(wot, { ratingwindow: {
 			wot.ratingwindow.updateratings({ name: c, t: t });
 		});
 
-		$(window).unload(function() {
+		$(window).unload(function () {
 			/* submit ratings and update views */
 			wot.ratingwindow.finishstate();
 		});
 
-		bg.wot.core.update();
+		//bg.wot.core.update(); // TODO: Check whether this call is really necessary
 	}
 }});
 
-$(document).ready(function() {
-    wot.log('ratings window DOM ready');
+$(document).ready(function () {
+	wot.log('ratings window DOM ready');
 	wot.ratingwindow.onload();
 });

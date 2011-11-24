@@ -19,22 +19,21 @@
  */
 
 
-
 $.extend(wot, { browser: {
 
-    opentab: function(url, callback){
-        // it will not work
+	opentab: function (url, callback) {
+		// it will not work
 //        var tabs = require("tabs");
 //
 //        tabs.open({
 //            url: url,
 //            onReady: callback
 //        });
-    },
+	},
 
-    enumaratetabs: function(callback) {
+	enumaratetabs: function (callback) {
 
-        // it will not work
+		// it will not work
 //        var tabs = require('tabs');
 //
 //        for each (var tab in tabs) {
@@ -42,42 +41,44 @@ $.extend(wot, { browser: {
 //            callback(tab);
 //        }
 
-    },
+	},
 
-    triggeronmessage: function(port)
-    {
-        port.onMessage.addListener(function(data) {
-            wot.trigger("message:" + data.message, [ {
-                port: port,
-                post: function(message, data) {
-                    wot.post(this.port.name, message, data, this.port);
-                }
-            }, data ]);
-        });
-    },
+	triggeronmessage: function (port) {
+		port.onMessage.addListener(function (data) {
+			wot.trigger("message:" + data.message, [
+				{
+					port: port,
+					post: function (message, data) {
+						wot.post(this.port.name, message, data, this.port);
+					}
+				},
+				data
+			]);
+		});
+	},
 
-    load_async: function(url, data, callback, asyncronous)
-    {
-        asyncronous = asyncronous == undefined ? true : asyncronous;
-        var xhr = new XMLHttpRequest();
+	load_async: function (url, data, callback, asyncronous) {
+		wot.log("- wot.browser.load_async");
 
-        xhr.onreadystatechange = function() {
-            if (this.readyState == 4) {
-                callback(this);
-            }
-        };
+		asyncronous = asyncronous == undefined ? true : asyncronous;
+		var xhr = new XMLHttpRequest();
 
-        xhr.open("GET", url, asyncronous);
-        xhr.send(data);
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4) {
+				callback(this);
+			}
+		};
 
-    },
+		xhr.open("GET", url, asyncronous);
+		xhr.send(data);
+
+	},
 
 
-    load_sync: function(url, data, callback)
-    {
-        wot.log("browser/load_sync");
-        wot.browser.load_async(url, data, callback, false);
-    }
+	load_sync: function (url, data, callback) {
+		wot.log("- wot.browser.load_sync");
+		wot.browser.load_async(url, data, callback, false);
+	}
 
 }
 

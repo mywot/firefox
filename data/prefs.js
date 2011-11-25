@@ -22,7 +22,6 @@ $.extend(wot, { prefs: {
 	defaults: {
 		/* setting names are the same for each platform, don't change */
 		accessible:				false,
-		min_confidence_level:	wot.confidencelevels[2].min + 2,
 		my_cookies:				true,
 		popup_hide_delay:		1000,
 		popup_show_delay:		200,
@@ -30,8 +29,6 @@ $.extend(wot, { prefs: {
 		search_ignore_1:		false,
 		search_ignore_2:		false,
 		search_ignore_4:		true,
-		search_level:			wot.reputationlevels[5].min,
-		search_type:			wot.searchtypes.optimized,
 		show_application_0:		true,
 		show_application_1:		true,
 		show_application_2:		true,
@@ -39,19 +36,29 @@ $.extend(wot, { prefs: {
 		show_search_popup:		true,
 		use_search_level:		false,
 		status_level:			"",
-		warning_level_0:		wot.reputationlevels[4].min - 1,
-		warning_level_1:		wot.reputationlevels[4].min - 1,
-		warning_level_2:		wot.reputationlevels[4].min - 1,
 		warning_level_4:		0,
 		warning_opacity:		0.7,
-		warning_type_0:			wot.warningtypes.overlay,
-		warning_type_1:			wot.warningtypes.overlay,
-		warning_type_2:			wot.warningtypes.overlay,
-		warning_type_4:			wot.warningtypes.none,
 		warning_unknown_0:		false,
 		warning_unknown_1:		false,
 		warning_unknown_2:		false,
 		warning_unknown_4:		false
+	},
+
+	/* this defaults can be set only after receiving constants from main.js via messaging */
+	updatedefaults: function(values) {
+
+		$.extend(wot.prefs.defaults, {
+			min_confidence_level:	wot.confidencelevels[2].min + 2,
+			search_level:			wot.reputationlevels[5].min,
+			search_type:			wot.searchtypes.optimized,
+			warning_level_0:		wot.reputationlevels[4].min - 1,
+			warning_level_1:		wot.reputationlevels[4].min - 1,
+			warning_level_2:		wot.reputationlevels[4].min - 1,
+			warning_type_0:			wot.warningtypes.overlay,
+			warning_type_1:			wot.warningtypes.overlay,
+			warning_type_2:			wot.warningtypes.overlay,
+			warning_type_4:			wot.warningtypes.none
+		});
 	},
 
 	set: function(name, value)
@@ -152,7 +159,7 @@ $.extend(wot, { prefs: {
 			wot.prefs.clear(data.name);
 		});
 
-		wot.listen("prefs");
+		//wot.listen("prefs");
 	}
 }});
 

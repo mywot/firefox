@@ -75,7 +75,7 @@ $.extend(wot, { locale: {
 			});
 		});
 
-		wot.listen("locale");
+		//wot.listen("locale");
 		this.setlocale();
 	}
 }});

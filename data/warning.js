@@ -361,7 +361,7 @@ wot.warning = {
 			wot.warning.add(data.data, data.type.reason);
 		});
 
-		wot.listen("warning");
+		//wot.listen("warning");
 	}
 };
 

@@ -36,12 +36,51 @@ var wot = {
 
 	// Here was a set of Constants which is moved now to lib/constants.js
 
+	debug: true,
+
+	// ID string for distinguish logging messages (injections vs ratingwindow)
+	source: "",
+
 	/* logging */
+
+	// Output whole object recursively
+	var_dump: function (obj, level)
+	{
+		console.log("(" + (typeof obj) + ") : ");
+		var level_nbsp = "";
+
+		level = level || 1;
+
+		for (i = 0; i < 2*level; i++)
+		{
+			level_nbsp += "..";
+		}
+
+		switch(typeof obj) {
+			case "string":
+				console.log(obj);
+				break;
+			case "boolean":
+				console.log((obj ? "true" : "false"));
+				break;
+			case "number":
+			case "function":
+				console.log(obj.toString());
+				break;
+			default:
+				for(var key in obj)
+				{
+					console.log(level_nbsp + key + " = ");
+					this.var_dump(obj[key], level + 1);
+				}
+				break;
+		}
+	},
 
 	log: function(s)
 	{
 		if (wot.debug) {
-			console.log(s);
+			console.log(this.source + " # " + s);
 		}
 	},
 
@@ -53,18 +92,16 @@ var wot = {
 
 	trigger: function(name, params, once)
 	{
+		wot.log("+ Triggered " + name);
 		if (this.events[name]) {
-			if (wot.debug) {
-				console.log("trigger: event " + name + ", once = " + once +
-					"\n");
-			}
+			console.log("trigger: event " + name + ", once = " + once);
 
 			this.events[name].forEach(function(obj) {
 				try {
 					obj.func.apply(null, [].concat(params).concat(obj.params));
 				} catch (e) {
-					console.log("trigger: event " + name + " failed with " +
-						e + "\n");
+					console.error("trigger: event " + name + " failed with " + e);
+					console.error(e.stack);
 				}
 			});
 
@@ -80,9 +117,7 @@ var wot = {
 			this.events[name] = this.events[name] || [];
 			this.events[name].push({ func: func, params: params || [] });
 
-			if (wot.debug) {
-				console.log("bind: event " + name + "\n");
-			}
+			wot.log("bind: event " + name);
 			this.trigger("bind:" + name);
 		}
 	},
@@ -110,64 +145,29 @@ var wot = {
 
 	/* messaging */
 
-	connections: {},
-
-	triggeronmessage: function(port)
+	triggeronmessage: function(data)
 	{
-		port.onMessage.addListener(function(data) {
-			wot.trigger("message:" + data.message, [ {
-					port: port,
-					post: function(message, data) {
-						wot.post(this.port.name, message, data, this.port);
-					}
-				}, data ]);
+		wot.log("- wot.triggeronmessage / data.message: " + data.message);
+		//wot.var_dump(data);
+
+		wot.trigger("message:" + data.message, data);
+	},
+
+	listen: function()
+	{
+		wot.log("- wot.listen");
+		self.port.on("wotMessaging", function(data) {
+			wot.triggeronmessage(data);
 		});
 	},
 
-	listen: function(names)
+	post: function(name, message, data)
 	{
-		if (typeof(names) == "string") {
-			names = [ names ];
-		}
-
-        // TODO: Fix it!
-		chrome.extension.onConnect.addListener(function(port) {
-			if (names.indexOf(port.name) >= 0) {
-				wot.triggeronmessage(port);
-				wot.connections[port.name] = port;
-			}
-		});
-	},
-
-	connect: function(name)
-	{
-		var port = this.connections[name];
-
-		if (port) {
-			return port;
-		}
-
-        // TODO: Fix it!
-		port = chrome.extension.connect({ name: name });
-
-		if (port) {
-			this.triggeronmessage(port);
-			this.connections[name] = port;
-		}
-
-		return port;
-	},
-
-	post: function(name, message, data, port)
-	{
-		port = port || this.connect(name);
-
-		if (port) {
-			data = data || {};
-			data.message = name + ":" + message;
-			this.log("post: posting " + data.message + "\n");
-			port.postMessage(data);
-		}
+		wot.log("- wot.post");
+		data = data || {};
+		data.message = name + ":" + message;
+		wot.log("post: posting " + data.message);
+		self.port.emit("wotMessaging", data);
 	},
 
     /* i18n */
@@ -337,7 +337,8 @@ var wot = {
 	{
 		var name = "/";
 		
-		if (typeof(r) == "number") {
+		if (typeof(r) == "number")
+		{
 			name += this.getlevel(this.reputationlevels, r).name;
 		} else {
 			name += r;
@@ -349,13 +350,24 @@ var wot = {
 
 		var path = "skin/fusion/";
 
-		if ((typeof(r) != "number" || r >= -1) && accessible) {
+		if ((typeof(r) != "number" || r >= -1) && accessible)
+		{
 			path += "accessible/";
 		}
 
 		return path + size + "_" + size + name + ".png";
+	},
+
+	initialize: function(onsuccess)
+	{
+		var _wot = this;
+
+		wot.bind("message:constants", function(data) {
+			$.extend(true, _wot, data.data); // we use deep extending
+			onsuccess();
+		});
+
+		wot.listen();
+
 	}
 };
-
-// Inject Constants from lib/constants.js to wot object
-$.extend(wot, exports.constants);

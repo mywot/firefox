@@ -323,7 +323,7 @@ $.extend(wot, { ratingwindow: {
 	},
 
 	onload: function () {
-		wot.log("ratingwindow.js: onload");
+		wot.log("- ratingwindow.onload");
 		var bg = window; // sorgoz: changed from chrome background
 
 		/* accessibility */
@@ -481,6 +481,6 @@ $.extend(wot, { ratingwindow: {
 }});
 
 $(document).ready(function () {
-	wot.log('ratings window DOM ready');
-	wot.ratingwindow.onload();
+	wot.log('RatingWindow DOM ready');
+	wot.initialize(wot.ratingwindow.onload);
 });

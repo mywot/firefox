@@ -1,0 +1,1 @@
+wot.source = "RateWindow";

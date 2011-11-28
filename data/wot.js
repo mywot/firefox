@@ -34,16 +34,16 @@ var chrome = {
 
 var wot = {
 
-	// Here was a set of Constants which is moved now to lib/constants.js
-
 	debug: true,
 
 	// ID string for distinguish logging messages (injections vs ratingwindow)
 	source: "",
 
+	// Other Constants will be obtained from main.js through Messaging
+
 	/* logging */
 
-	// Output whole object recursively
+	// For DEBUG: Output whole object recursively
 	var_dump: function (obj, level)
 	{
 		console.log("(" + (typeof obj) + ") : ");
@@ -84,11 +84,9 @@ var wot = {
 		}
 	},
 
-	/* events */
+	/* internal events handling */
 
 	events: {},
-
-	// TODO Add: obtain Constants through messaging
 
 	trigger: function(name, params, once)
 	{
@@ -143,13 +141,11 @@ var wot = {
 		});
 	},
 
-	/* messaging */
+	/* Messaging between main.js/background.js and Content Scripts/Panels */
 
 	triggeronmessage: function(data)
 	{
 		wot.log("- wot.triggeronmessage / data.message: " + data.message);
-		//wot.var_dump(data);
-
 		wot.trigger("message:" + data.message, data);
 	},
 
@@ -163,10 +159,9 @@ var wot = {
 
 	post: function(name, message, data)
 	{
-		wot.log("- wot.post");
 		data = data || {};
 		data.message = name + ":" + message;
-		wot.log("post: posting " + data.message);
+		wot.log("- wot.post: " + data.message);
 		self.port.emit("wotMessaging", data);
 	},
 
@@ -358,13 +353,11 @@ var wot = {
 		return path + size + "_" + size + name + ".png";
 	},
 
-	initialize: function(onsuccess)
+	initialize: function(on_success)
 	{
-		var _wot = this;
-
 		wot.bind("message:constants", function(data) {
-			$.extend(true, _wot, data.data); // we use deep extending
-			onsuccess();
+			$.extend(true, wot, data.data); // we use deep extending
+			on_success();
 		});
 
 		wot.listen();

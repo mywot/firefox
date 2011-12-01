@@ -324,7 +324,7 @@ $.extend(wot, { ratingwindow: {
 
 	onload: function () {
 		wot.log("- ratingwindow.onload");
-		var bg = window; // sorgoz: changed from chrome background
+		var bg = window;
 
 		/* accessibility */
 		$("#wot-header-logo, " +

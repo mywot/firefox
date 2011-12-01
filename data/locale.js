@@ -55,7 +55,7 @@ $.extend(wot, { locale: {
 		}
 
 		wot.language = this.languages[lang] || "en";
-		wot.log("wot.locale.setlocale: selected " + wot.language + "\n");
+		wot.log("wot.locale.setlocale: selected " + wot.language);
 
 		this.loadlocale(function() {
 			wot.locale.ready(true);
@@ -68,9 +68,12 @@ $.extend(wot, { locale: {
 
 		wot.bind("message:locale:get", function(port, data) {
 			wot.bind("locale:ready", function() {
-				port.post("put", {
-					language: wot.language,
-					locale: wot.alllocales[wot.language] || {}
+				self.port.emit("wotMessaging", {
+					message: "locale:ready",
+					data: {
+						language: wot.language,
+						locale: wot.alllocales[wot.language] || {}
+					}
 				});
 			});
 		});

@@ -63,71 +63,53 @@ $.extend(wot, { prefs: {
 
 	set: function(name, value)
 	{
-		try {
-			localStorage.setItem(name, JSON.stringify(value));
-			wot.trigger("prefs:set", [ name, value ]);
-			return true;
-		} catch (e) {
-			console.log("prefs.set: failed with " + e + "\n");
-		}
+//		try {
+//			localStorage.setItem(name, JSON.stringify(value));
+//			wot.trigger("prefs:set", [ name, value ]);
+//			return true;
+//		} catch (e) {
+//			console.log("prefs.set: failed with " + e + "\n");
+//		}
 
 		return false;
 	},
 
 	get: function(name)
 	{
-		try {
-			var value;
-
-			try {
-				value = JSON.parse(localStorage.getItem(name));
-			} catch (e) {
-			}
-
-			if (value == null) {
-				value = this.defaults[name];
-			}
-
-			wot.trigger("prefs:get", [ name, value ]);
-			return value;
-		} catch (e) {
-			console.log("prefs.get: failed with " + e + "\n");
-		}
-
-		return null;
+		return prefs[name];
 	},
 
 	clear: function(name)
 	{
-		try {
-			localStorage.removeItem(name);
-			wot.trigger("prefs:clear", [ name ]);
-			return true;
-		} catch (e) {
-			console.log("prefs.clear: failed with " + e + "\n");
-		}
+//		try {
+//			localStorage.removeItem(name);
+//			wot.trigger("prefs:clear", [ name ]);
+//			return true;
+//		} catch (e) {
+//			console.log("prefs.clear: failed with " + e + "\n");
+//		}
 
 		return false;
 	},
 
 	each: function(func, params)
 	{
-		if (typeof(func) != "function") {
-			return;
-		}
-
-		params = params || [];
-
-		for (var i = 0; i < localStorage.length; ++i) {
-			var key = localStorage.key(i);
-
-			var rv = func.apply(null,
-						[ key, this.get(key) ].concat(params));
-
-			if (rv) {
-				return;
-			}
-		}
+//		if (typeof(func) != "function") {
+//			return;
+//		}
+//
+//		params = params || [];
+//
+//		for (var i = 0; i < localStorage.length; ++i) {
+//			var key = localStorage.key(i);
+//
+//			var rv = func.apply(null,
+//						[ key, this.get(key) ].concat(params));
+//
+//			if (rv) {
+//				return;
+//			}
+//		}
 	},
 
 	onload: function()

@@ -356,7 +356,11 @@ var wot = {
 	initialize: function(on_success)
 	{
 		wot.bind("message:constants", function(data) {
-			$.extend(true, wot, data.data); // we use deep extending
+			$.extend(true, wot, data.constants); // we use deep extending
+
+			wot.prefs = {};
+			$.extend(true, wot.prefs, data.prefs); // we use deep extending
+
 			on_success();
 		});
 

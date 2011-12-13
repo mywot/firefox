@@ -76,7 +76,7 @@ $.extend(wot, { prefs: {
 
 	get: function(name)
 	{
-		return prefs[name];
+		return wot.prefs_data[name];
 	},
 
 	clear: function(name)

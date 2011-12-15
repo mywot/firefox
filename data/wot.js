@@ -36,6 +36,8 @@ var wot = {
 
 	debug: true,
 
+	WOT_MSG: "wotMessaging",
+
 	// ID string for distinguish logging messages (injections vs ratingwindow)
 	source: "",
 
@@ -90,7 +92,7 @@ var wot = {
 
 	trigger: function(name, params, once)
 	{
-		wot.log("+ Triggered " + name);
+		wot.log(" ... wot.triggered " + name);
 		if (this.events[name]) {
 			console.log("trigger: event " + name + ", once = " + once);
 
@@ -152,7 +154,7 @@ var wot = {
 	listen: function()
 	{
 		wot.log("- wot.listen");
-		self.port.on("wotMessaging", function(data) {
+		self.port.on(wot.WOT_MSG, function(data) {
 			wot.triggeronmessage(data);
 		});
 	},
@@ -160,9 +162,9 @@ var wot = {
 	post: function(name, message, data)
 	{
 		data = data || {};
-		data.message = name + ":" + message;
-		wot.log("- wot.post: " + data.message);
-		self.port.emit("wotMessaging", data);
+		data.message = message;
+		wot.log("- wot.post: " + JSON.stringify(data));
+		self.port.emit(wot.WOT_MSG, data);
 	},
 
     /* i18n */

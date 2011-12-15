@@ -214,7 +214,7 @@ $.extend(wot, { ratingwindow: {
 	},
 
 	updatecontents: function () {
-		var bg = window; // sorgoz: changed from chrome background
+		var bg = window;
 		var cached = this.getcached();
 
 		/* update current rating state */
@@ -476,6 +476,19 @@ $.extend(wot, { ratingwindow: {
 			wot.ratingwindow.finishstate();
 		});
 
+
+		wot.bind("message:geticon", function(data){
+			wot.log(JSON.stringify(data));
+
+			var path = wot.geticon(data.r, data.size, data.accessible);
+
+			wot.log(":: path = " + path);
+
+			wot.post("message", "seticon", { path: path });
+
+		});
+
+
 		//bg.wot.core.update(); // TODO: Check whether this call is really necessary
 	}
 }});
@@ -483,4 +496,5 @@ $.extend(wot, { ratingwindow: {
 $(document).ready(function () {
 	wot.log('RatingWindow DOM ready');
 	wot.initialize(wot.ratingwindow.onload);
+
 });

@@ -83,7 +83,7 @@ $.extend(wot, { ratingwindow: {
 			/* update all views */
 			bg.wot.core.update();
 		} catch (e) {
-			console.log("ratingwindow.finishstate: failed with " + e + "\n");
+			console.log("ratingwindow.finishstate: failed with " + e);
 		}
 	},
 
@@ -91,10 +91,10 @@ $.extend(wot, { ratingwindow: {
 
 	navigate: function (url) {
 		try {
-			chrome.tabs.create({ url: url });
+			wot.post("","navigate", { url: url });
 			this.hide();
 		} catch (e) {
-			console.log("ratingwindow.navigate: failed with " + e + "\n");
+			console.log("ratingwindow.navigate: failed with " + e);
 		}
 	},
 
@@ -128,7 +128,7 @@ $.extend(wot, { ratingwindow: {
 				return position;
 			}
 		} catch (e) {
-			console.log("ratingwindow.getrating: failed with " + e + "\n");
+			console.log("ratingwindow.getrating: failed with " + e);
 		}
 
 		return -1;
@@ -318,8 +318,10 @@ $.extend(wot, { ratingwindow: {
 		});
 	},
 
+	// hide panel
 	hide: function () {
-		window.close();
+		wot.log("- hide()");
+		wot.post("", "hidewindow", {});
 	},
 
 	onload: function () {
@@ -487,6 +489,8 @@ $.extend(wot, { ratingwindow: {
 			wot.post("message", "seticon", { path: path });
 
 		});
+
+		//wot.bind("message:status:update", function)
 
 
 		//bg.wot.core.update(); // TODO: Check whether this call is really necessary

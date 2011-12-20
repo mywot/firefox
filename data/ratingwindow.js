@@ -62,7 +62,7 @@ $.extend(wot, { ratingwindow: {
 			var bg = window; // sorgoz: changed from chrome background
 
 			/* message was shown */
-			if (bg.wot.core.unseenmessage()) {
+			if (bg.wot.core.unseenmessage()) {  // TODO: fix it
 				bg.wot.prefs.set("last_message", bg.wot.core.usermessage.id);
 			}
 
@@ -305,19 +305,20 @@ $.extend(wot, { ratingwindow: {
 		$("#wot-partner").attr("partner", wot.partner || "");
 	},
 
-	update: function (target, data) {
-		chrome.windows.getCurrent(function (obj) { // TODO: FIX IT!
-			chrome.tabs.getSelected(obj.id, function (tab) {
+	update: function (data) {
+		wot.log("- update / data = " + JSON.stringify(data));
+//		chrome.windows.getCurrent(function (obj) { // TODO: FIX IT!
+//			chrome.tabs.getSelected(obj.id, function (tab) {
 				try {
-					if (tab.id == target.id) {
+//					if (tab.id == target.id) {
 						wot.ratingwindow.current = data || {};
 						wot.ratingwindow.updatecontents();
-					}
+//					}
 				} catch (e) {
 					console.log("ratingwindow.update: failed with " + e + "\n");
 				}
-			});
-		});
+//			});
+//		});
 	},
 
 	// hide panel
@@ -481,6 +482,7 @@ $.extend(wot, { ratingwindow: {
 		});
 
 
+		// TODO: eliminate this piece of shit
 		wot.bind("message:geticon", function(data){
 			wot.log(JSON.stringify(data));
 
@@ -492,7 +494,7 @@ $.extend(wot, { ratingwindow: {
 
 		});
 
-		//wot.bind("message:status:update", function)
+		wot.bind("message:status:update", wot.ratingwindow.update);
 
 
 		//bg.wot.core.update(); // TODO: Check whether this call is really necessary

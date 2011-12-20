@@ -24,6 +24,8 @@ $.extend(wot, { ratingwindow: {
 	/* rating state */
 
 	state: {},
+	user_content: [],
+	usermessage: {},
 
 	updatestate: function (target, data) {
 		/* initialize on target change */
@@ -260,11 +262,11 @@ $.extend(wot, { ratingwindow: {
 		this.updateratings();
 
 		/* message */
-		if (bg.wot.core.usermessage.text) {
+		if (bg.wot.ratingwindow.usermessage.text) {
 			$("#wot-message-text")
-				.attr("url", bg.wot.core.usermessage.url || "")
-				.attr("status", bg.wot.core.usermessage.type || "")
-				.text(bg.wot.core.usermessage.text);
+				.attr("url", bg.wot.ratingwindow.usermessage.url || "")
+				.attr("status", bg.wot.ratingwindow.usermessage.type || "")
+				.text(bg.wot.ratingwindow.usermessage.text);
 			$("#wot-message").show();
 		} else {
 			$("#wot-message").hide();
@@ -273,7 +275,7 @@ $.extend(wot, { ratingwindow: {
 		/* user content */
 		$(".wot-user").hide();
 
-		bg.wot.core.usercontent.forEach(function (item, index) {
+		wot.ratingwindow.user_content.forEach(function (item, index) {
 			if (item.bar && item.length != null && item.label) {
 				$("#wot-user-" + index + "-header").text(item.bar);
 				$("#wot-user-" + index + "-bar-text").text(item.label);
@@ -304,7 +306,7 @@ $.extend(wot, { ratingwindow: {
 	},
 
 	update: function (target, data) {
-		chrome.windows.getCurrent(function (obj) {
+		chrome.windows.getCurrent(function (obj) { // TODO: FIX IT!
 			chrome.tabs.getSelected(obj.id, function (tab) {
 				try {
 					if (tab.id == target.id) {

@@ -17,20 +17,6 @@
 	You should have received a copy of the GNU General Public License
 	along with WOT. If not, see <http://www.gnu.org/licenses/>.
 */
-// temporary stubs for porting add-on from Chrome to Firefox
-
-var chrome = {
-    windows: {},
-    extension: {
-        onConnect: {
-            addListener: function(){}
-        },
-        connect: function() {}
-    },
-    i18n: {
-        getMessage: function() {}
-    }
-};
 
 var wot = {
 
@@ -143,7 +129,7 @@ var wot = {
 		});
 	},
 
-	/* Messaging between main.js/background.js and Content Scripts/Panels */
+	/* Messaging between Core and Content Scripts/Panels */
 
 	triggeronmessage: function(data)
 	{

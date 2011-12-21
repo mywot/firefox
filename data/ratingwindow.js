@@ -82,14 +82,18 @@ $.extend(wot, { ratingwindow: {
 				bg.wot.api.submit(this.state.target, params);
 			}
 
-			/* update all views */
-			bg.wot.core.update();
+			wot.ratingwindow.update_tab();
+
 		} catch (e) {
 			console.log("ratingwindow.finishstate: failed with " + e);
 		}
 	},
 
 	/* helpers */
+
+	update_tab: function() {
+		wot.post("","update_tab", {});
+	},
 
 	navigate: function (url) {
 		try {

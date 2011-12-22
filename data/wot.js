@@ -68,7 +68,16 @@ var wot = {
 	log: function(s)
 	{
 		if (wot.debug) {
-			console.log(this.source + " # " + s);
+			var logstr = [];
+			for(var i = 0; i < arguments.length; ++i) {
+				var par = arguments[i];
+				if (typeof par != "string") {
+					logstr.push(JSON.stringify(par));
+				} else {
+					logstr.push(par);
+				}
+			}
+			console.log(this.source + " # " + logstr.join("\n"));
 		}
 	},
 
@@ -78,9 +87,9 @@ var wot = {
 
 	trigger: function(name, params, once)
 	{
-		wot.log(" ... wot.triggered " + name);
+		wot.log(" ... wot.triggered ", name);
 		if (this.events[name]) {
-			console.log("trigger: event " + name + ", once = " + once);
+			wot.log("trigger: event " + name + ", once = " + once);
 
 			this.events[name].forEach(function(obj) {
 				try {

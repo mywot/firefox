@@ -19,37 +19,41 @@
  */
 
 $.extend(wot, { ratingwindow: {
-	sliderwidth: 194,
+
+	sliderwidth : 194,
 
 	/* rating state */
 
-	state: {},
-	user_content: [],
-	usermessage: {},
+	state : {},
+	user_content : [],
+	usermessage : {},
 
-	updatestate: function (target, data) {
+	updatestate : function (target, data) {
+		wot.log("RW: updatestate(target, data) :", target, data);
 		/* initialize on target change */
 		if (this.state.target != target) {
 			this.finishstate();
 			this.state = { target: target, down: -1 };
 		}
 
-		var state = {};
+		var new_state = {};
 
 		/* add existing ratings to state */
 		if (data && data.status == wot.cachestatus.ok) {
 			wot.components.forEach(function (item) {
 				if (data.value[item.name] && data.value[item.name].t >= 0) {
-					state[item.name] = { t: data.value[item.name].t };
+					new_state[item.name] = { t: data.value[item.name].t };
 				}
 			});
 		}
 
 		/* remember previous state */
-		this.state = $.extend(state, this.state);
+		this.state = $.extend(new_state, this.state);
+		wot.log("# RW: updatestate finished. state = " + JSON.stringify(this.state));
 	},
 
-	setstate: function (component, t) {
+	setstate : function (component, t) {
+		wot.log("- setstate(component, t) :", component, t);
 		if (t >= 0) {
 			this.state[component] = { t: t };
 		} else {
@@ -57,14 +61,13 @@ $.extend(wot, { ratingwindow: {
 		}
 	},
 
-	finishstate: function () {
+	finishstate : function () {
+		wot.log("- finishstate()");
 		try {
 			var bg = window; // sorgoz: changed from chrome background
 
 			/* message was shown */
-			if (bg.wot.core.unseenmessage()) {  // TODO: fix it
-				bg.wot.prefs.set("last_message", bg.wot.core.usermessage.id);
-			}
+			wot.post("","unseen_message", { user_message: this.usermessage });
 
 			/* check for rating changes */
 			if (bg.wot.cache.cacheratingstate(this.state.target,
@@ -91,11 +94,13 @@ $.extend(wot, { ratingwindow: {
 
 	/* helpers */
 
-	update_tab: function() {
+	update_tab : function() {
+		wot.log("- update_tab()");
 		wot.post("","update_tab", {});
 	},
 
-	navigate: function (url) {
+	navigate : function (url) {
+		wot.log("- navigate() / url = " + url)
 		try {
 			wot.post("","navigate", { url: url });
 			this.hide();
@@ -104,7 +109,8 @@ $.extend(wot, { ratingwindow: {
 		}
 	},
 
-	getcached: function () {
+	getcached : function () {
+		wot.log("- getcached()");
 		if (this.current.target && this.current.cached &&
 			this.current.cached.status == wot.cachestatus.ok) {
 			return this.current.cached;
@@ -113,7 +119,7 @@ $.extend(wot, { ratingwindow: {
 		return { value: {} };
 	},
 
-	getrating: function (e, stack) {
+	getrating : function (e, stack) {
 		try {
 			if (this.getcached().status == wot.cachestatus.ok) {
 				var slider = $(".wot-rating-slider", stack);
@@ -142,9 +148,10 @@ $.extend(wot, { ratingwindow: {
 
 	/* user interface */
 
-	current: {},
+	current : {},
 
-	updateratings: function (state) {
+	updateratings : function (state) {
+		wot.log("- updateratings(state) : ", state);
 		/* indicator state */
 		state = state || {};
 
@@ -219,7 +226,9 @@ $.extend(wot, { ratingwindow: {
 		});
 	},
 
-	updatecontents: function () {
+	updatecontents : function () {
+		wot.log("- updatecontents()");
+
 		var bg = window;
 		var cached = this.getcached();
 
@@ -227,9 +236,10 @@ $.extend(wot, { ratingwindow: {
 		this.updatestate(this.current.target, cached);
 
 		/* target */
+		wot.log("this.current = ", this.current);
+
 		if (this.current.target && cached.status == wot.cachestatus.ok) {
-			$("#wot-title-text").text(
-				bg.wot.url.decodehostname(this.current.target));
+			$("#wot-title-text").text(this.current.decodedtarget);
 		} else if (cached.status == wot.cachestatus.busy) {
 			$("#wot-title-text").text(wot.i18n("messages", "loading"));
 		} else if (cached.status == wot.cachestatus.error) {
@@ -309,30 +319,30 @@ $.extend(wot, { ratingwindow: {
 		$("#wot-partner").attr("partner", wot.partner || "");
 	},
 
-	update: function (data) {
-		wot.log("- update / data = " + JSON.stringify(data));
+	update : function (msg) {
+		wot.log("- update(msg) :", msg);
 //		chrome.windows.getCurrent(function (obj) { // TODO: FIX IT!
 //			chrome.tabs.getSelected(obj.id, function (tab) {
 				try {
 //					if (tab.id == target.id) {
-						wot.ratingwindow.current = data || {};
+						wot.ratingwindow.current = msg.data || {};
 						wot.ratingwindow.updatecontents();
 //					}
 				} catch (e) {
-					console.log("ratingwindow.update: failed with " + e + "\n");
+					console.log("ratingwindow.update: failed with " + e);
 				}
 //			});
 //		});
 	},
 
 	// hide panel
-	hide: function () {
+	hide : function () {
 		wot.log("- hide()");
 		wot.post("", "hidewindow", {});
 	},
 
-	onload: function () {
-		wot.log("- ratingwindow.onload");
+	onload : function () {
+		wot.log("- onload");
 		var bg = window;
 
 		/* accessibility */
@@ -506,7 +516,7 @@ $.extend(wot, { ratingwindow: {
 }});
 
 $(document).ready(function () {
-	wot.log('RatingWindow DOM ready');
+
 	wot.initialize(wot.ratingwindow.onload);
 
 });

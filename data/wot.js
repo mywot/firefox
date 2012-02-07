@@ -157,7 +157,7 @@ var wot = {
 	post: function(name, message, data)
 	{
 		data = data || {};
-		data.message = message;
+		data.message = name + ":" + message;
 		wot.log("- wot.post: " + JSON.stringify(data));
 		self.port.emit(wot.WOT_MSG, data);
 	},

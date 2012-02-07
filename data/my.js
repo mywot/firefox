@@ -21,6 +21,7 @@
 wot.my = {
 	oncontentloaded: function()
 	{
+		wot.log("my.oncontentloaded()");
 		try {
 			var clear = document.getElementById("wotsaverating");
 
@@ -39,10 +40,11 @@ wot.my = {
 
 	onload: function()
 	{
+		wot.log("my.onload()");
 		try {
 			wot.addready("my", this);
 
-			wot.bind("message:my:setcookies", function(port, data) {
+			wot.bind("message:my:setcookies", function(data) {
 				data.cookies.forEach(function(item) {
 					document.cookie = item;
 					wot.log("my: set cookie: " + item + "\n");

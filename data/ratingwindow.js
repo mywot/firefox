@@ -67,7 +67,7 @@ $.extend(wot, { ratingwindow: {
 			var bg = window; // sorgoz: changed from chrome background
 
 			/* message was shown */
-			wot.post("","unseen_message", { user_message: this.usermessage });
+			wot.post("rwin","unseen_message", { user_message: this.usermessage });
 
 			/* check for rating changes */
 			if (bg.wot.cache.cacheratingstate(this.state.target,
@@ -96,13 +96,13 @@ $.extend(wot, { ratingwindow: {
 
 	update_tab : function() {
 		wot.log("- update_tab()");
-		wot.post("","update_tab", {});
+		wot.post("rwin","update_tab", {});
 	},
 
 	navigate : function (url) {
 		wot.log("- navigate() / url = " + url)
 		try {
-			wot.post("","navigate", { url: url });
+			wot.post("rwin","navigate", { url: url });
 			this.hide();
 		} catch (e) {
 			console.log("ratingwindow.navigate: failed with " + e);
@@ -229,7 +229,6 @@ $.extend(wot, { ratingwindow: {
 	updatecontents : function () {
 		wot.log("- updatecontents()");
 
-		var bg = window;
 		var cached = this.getcached();
 
 		/* update current rating state */
@@ -251,7 +250,7 @@ $.extend(wot, { ratingwindow: {
 
 		/* reputations */
 		wot.components.forEach(function (item) {
-			if (bg.wot.prefs.get("show_application_" + item.name)) {
+			if (wot.prefs.get("show_application_" + item.name)) {
 				$("#wot-rating-" + item.name + ", #wot-rating-" + item.name +
 					"-border").css("display", "block");
 			} else {
@@ -276,11 +275,11 @@ $.extend(wot, { ratingwindow: {
 		this.updateratings();
 
 		/* message */
-		if (bg.wot.ratingwindow.usermessage.text) {
+		if (wot.ratingwindow.usermessage.text) {
 			$("#wot-message-text")
-				.attr("url", bg.wot.ratingwindow.usermessage.url || "")
-				.attr("status", bg.wot.ratingwindow.usermessage.type || "")
-				.text(bg.wot.ratingwindow.usermessage.text);
+				.attr("url", wot.ratingwindow.usermessage.url || "")
+				.attr("status", wot.ratingwindow.usermessage.type || "")
+				.text(wot.ratingwindow.usermessage.text);
 			$("#wot-message").show();
 		} else {
 			$("#wot-message").hide();
@@ -338,7 +337,7 @@ $.extend(wot, { ratingwindow: {
 	// hide panel
 	hide : function () {
 		wot.log("- hide()");
-		wot.post("", "hidewindow", {});
+		wot.post("rwin", "hidewindow", {});
 	},
 
 	onload : function () {
@@ -504,7 +503,7 @@ $.extend(wot, { ratingwindow: {
 
 			wot.log(":: path = " + path);
 
-			wot.post("message", "seticon", { path: path });
+			wot.post("rwin", "seticon", { path: path });
 
 		});
 

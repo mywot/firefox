@@ -267,17 +267,20 @@ wot.settings = {
 				wot.log("settings.load: done\n");
 			});
 		} catch (e) {
-			wot.log("settings.load: failed with " + e + "\n");
+			wot.log("settings.load: failed with " + e);
 		}
 	},
 
 	onload: function()
 	{
+		wot.log("settings.onload()");
+
 		if (window != window.top) {
 			return; /* ignore the settings page if it's in a frame */
 		}
 
 		var match = window.location.href.match(this.forward);
+		wot.log("settings : match = " + match);
 
 		if (match) {
 			/* redirect to the correct settings language and version */
@@ -285,10 +288,23 @@ wot.settings = {
 
 			/* make sure we have set up authentication cookies */
 			wot.bind("my:ready", function() {
-				window.location.href = wot.urls.settings + "/" +
-					wot.i18n("lang") + "/" + wot.platform + "/" + wot.version +
-					((section) ? "/" + section : "");
+				wot.log("settings.my.ready | enter");
+
+				// parts of proper settings' page's url
+				var components = [
+					wot.urls.settings,
+					wot.language,
+					wot.platform,
+					wot.version
+				];
+
+				if (section) components.push(section);
+
+				// change location
+				window.location.href = components.join("/");
+				wot.log("LANGUAGE IS " + wot.language);
 			});
+
 		} else if (this.trigger.test(window.location.href)) {
 			/* load settings for this page */
 			document.addEventListener("DOMContentLoaded", function() {
@@ -299,6 +315,8 @@ wot.settings = {
 				wot.settings.load();
 			}
 		}
+
+		wot.listen();
 	}
 };
 

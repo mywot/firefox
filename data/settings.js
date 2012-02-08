@@ -1,6 +1,6 @@
 /*
 	content/settings.js
-	Copyright © 2009, 2010, 2011  WOT Services Oy <info@mywot.com>
+	Copyright © 2009 - 2012  WOT Services Oy <info@mywot.com>
 
 	This file is part of WOT.
 
@@ -26,18 +26,19 @@ wot.settings = {
 	addscript: function(js)
 	{
 		try {
-			var script = document.createElement("script");
+			var script = unsafeWindow.document.createElement("script");
 
 			script.setAttribute("type", "text/javascript");
-			script.innerText = js;
+			script.setAttribute("comment", "mywot");
+			script.text = js;
 
-			var body = document.getElementsByTagName("body");
+			var body = unsafeWindow.document.getElementsByTagName("body");
 
 			if (body && body.length > 0) {
 				body[0].appendChild(script);
 			}
 		} catch (e) {
-			wot.log("settings.addscript: failed with " + e + "\n");
+			wot.flog("settings.addscript: failed with ", e);
 		}
 	},
 
@@ -63,7 +64,7 @@ wot.settings = {
 
 			if (m && m[1]) {
 				state[m[1]] = true;
-				wot.log("settings.savesearch: disabled: " + attrs.id + "\n");
+				wot.log("settings.savesearch: disabled: " + attrs.id);
 			}
 		}
 
@@ -223,20 +224,21 @@ wot.settings = {
 			return;
 		}
 
-		wot.prefs.get(attrs.id, function(name, value) {
-			if (value == null) {
-				wot.log("settings.loadsetting: " + attrs.id + " missing\n");
-			} else if (attrs.type == "checkbox" || attrs.type == "radio") {
-				wot.log("settings.loadsetting: " + attrs.id + " = " + !!value + "\n");
-				elem.checked = !!value;
-			} else {
-				elem.setAttribute("value", value.toString());
-			}
-		});
+		var value = wot.prefs.get(attrs.id);
+
+		if (value == null) {
+			wot.flog("settings.loadsetting: " + attrs.id + " missing");
+		} else if (attrs.type == "checkbox" || attrs.type == "radio") {
+			wot.flog("settings.loadsetting: " + attrs.id + " = " + !!value);
+			elem.checked = !!value;
+		} else {
+			elem.setAttribute("value", value.toString());
+		}
 	},
 
 	loadinputs: function()
 	{
+		wot.log("settings.loadinputs()");
 		var inputs = document.getElementsByTagName("input");
 
 		for (var i = 0; i < inputs.length; ++i) {
@@ -246,6 +248,7 @@ wot.settings = {
 
 	load: function()
 	{
+		wot.flog("settings.load()");
 		try {
 			this.loadinputs();
 			this.loadsearch();
@@ -262,12 +265,12 @@ wot.settings = {
 
 			/* TODO: levels */
 
-			wot.bind("prefs:ready", function() {
-				wot.settings.addscript("wotsettings_ready();");
-				wot.log("settings.load: done\n");
-			});
+//			wot.bind("prefs:ready", function() {
+			wot.settings.addscript("wotsettings_ready();");
+			wot.flog("settings.load: done\n");
+//			});
 		} catch (e) {
-			wot.log("settings.load: failed with " + e);
+			wot.flog("settings.load: failed with ", e);
 		}
 	},
 
@@ -288,12 +291,12 @@ wot.settings = {
 
 			/* make sure we have set up authentication cookies */
 			wot.bind("my:ready", function() {
-				wot.log("settings.my.ready | enter");
+				wot.log("settings.my.ready | enter", wot.language);
 
 				// parts of proper settings' page's url
 				var components = [
 					wot.urls.settings,
-					wot.language,
+					window.navigator.language,
 					wot.platform,
 					wot.version
 				];
@@ -302,11 +305,12 @@ wot.settings = {
 
 				// change location
 				window.location.href = components.join("/");
-				wot.log("LANGUAGE IS " + wot.language);
 			});
 
 		} else if (this.trigger.test(window.location.href)) {
 			/* load settings for this page */
+
+
 			document.addEventListener("DOMContentLoaded", function() {
 					wot.settings.load();
 				}, false);
@@ -320,4 +324,11 @@ wot.settings = {
 	}
 };
 
-wot.settings.onload();
+wot.source = "Injection";
+
+wot.initialize(function(){
+	wot.log('Injection inited');
+	wot.settings.onload();
+});
+
+

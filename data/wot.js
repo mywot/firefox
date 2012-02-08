@@ -20,7 +20,7 @@
 
 var wot = {
 
-	debug: true,
+	debug: false,
 
 	WOT_MSG: "wotMessaging",
 
@@ -79,6 +79,14 @@ var wot = {
 			}
 			console.log(this.source + " # " + logstr.join("\n"));
 		}
+	},
+
+	// forced log function (doesn't take wot.debug into account)
+	flog: function(s) {
+		var _debug = wot.debug;
+		wot.debug = true;
+		this.log(arguments);
+		wot.debug = _debug;
 	},
 
 	/* internal events handling */
@@ -355,8 +363,13 @@ var wot = {
 		wot.bind("message:constants", function(data) {
 			$.extend(true, wot, data.constants); // we use deep extending
 
-			wot.prefs_data = {};
+			wot.prefs_data = wot.prefs.defaults;
+
 			$.extend(true, wot.prefs_data, data.prefs); // we use deep extending
+
+			//wot.prefs.updatedefaults();
+
+			//wot.language = wot.prefs_data.language;
 
 			on_success();
 		});

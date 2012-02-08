@@ -1,6 +1,6 @@
 /*
  firefox.js
- Copyright © 2009, 2010, 2011  WOT Services Oy <info@mywot.com>
+ Copyright © 2009 - 2012  WOT Services Oy <info@mywot.com>
 
  This file is part of WOT.
 
@@ -19,67 +19,46 @@
  */
 
 
-$.extend(wot, { browser: {
+$.extend(wot, {
 
-	opentab: function (url, callback) {
-		// it will not work
-//        var tabs = require("tabs");
-//
-//        tabs.open({
-//            url: url,
-//            onReady: callback
-//        });
-	},
+	browser:  {
 
-	enumaratetabs: function (callback) {
+		triggeronmessage: function (port) {
+			port.onMessage.addListener(function (data) {
+				wot.trigger("message:" + data.message, [
+					{
+						port: port,
+						post: function (message, data) {
+							wot.post(this.port.name, message, data, this.port);
+						}
+					},
+					data
+				]);
+			});
+		},
 
-		// it will not work
-//        var tabs = require('tabs');
-//
-//        for each (var tab in tabs) {
-//            wot.log(tab.title);
-//            callback(tab);
-//        }
+		load_async: function (url, data, callback, asyncronous) {
+			wot.log("- wot.browser.load_async");
 
-	},
+			asyncronous = asyncronous == undefined ? true : asyncronous;
+			var xhr = new XMLHttpRequest();
 
-	triggeronmessage: function (port) {
-		port.onMessage.addListener(function (data) {
-			wot.trigger("message:" + data.message, [
-				{
-					port: port,
-					post: function (message, data) {
-						wot.post(this.port.name, message, data, this.port);
-					}
-				},
-				data
-			]);
-		});
-	},
+			xhr.onreadystatechange = function () {
+				if (this.readyState == 4) {
+					callback(this);
+				}
+			};
 
-	load_async: function (url, data, callback, asyncronous) {
-		wot.log("- wot.browser.load_async");
+			xhr.open("GET", url, asyncronous);
+			xhr.send(data);
 
-		asyncronous = asyncronous == undefined ? true : asyncronous;
-		var xhr = new XMLHttpRequest();
-
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4) {
-				callback(this);
-			}
-		};
-
-		xhr.open("GET", url, asyncronous);
-		xhr.send(data);
-
-	},
+		},
 
 
-	load_sync: function (url, data, callback) {
-		wot.log("- wot.browser.load_sync");
-		wot.browser.load_async(url, data, callback, false);
+		load_sync: function (url, data, callback) {
+			wot.log("- wot.browser.load_sync");
+			wot.browser.load_async(url, data, callback, false);
+		}
 	}
-
-}
 
 });

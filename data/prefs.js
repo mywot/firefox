@@ -126,12 +126,12 @@ $.extend(wot, { prefs: {
 			});
 		});
 
-		wot.bind("message:prefs:get", function(port, data) {
-			port.post("put", {
-				name: data.name,
-				value: wot.prefs.get(data.name)
-			});
-		});
+//		wot.bind("message:prefs:get", function(port, data) {
+//			port.post("put", {
+//				name: data.name,
+//				value: wot.prefs.get(data.name)
+//			});
+//		});
 
 		wot.bind("message:prefs:set", function(port, data) {
 			wot.prefs.set(data.name, data.value);
